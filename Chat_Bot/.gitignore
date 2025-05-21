@@ -1,0 +1,7 @@
+__pycache__
+.pytest_cache
+.venv
+.env
+README.md
+uv.lock
+test_websocket.py
