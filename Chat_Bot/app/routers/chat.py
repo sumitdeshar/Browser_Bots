@@ -1,9 +1,8 @@
 # routes/user.py
 from fastapi import APIRouter
 
-from app.utils.chatResponse import get_response
+from app.utils.chatResponse import ChatIntent, detect_intent, respond
 from ..models.chat import Message
-
 
 router = APIRouter(prefix="/message", tags=["Chat"])
 
@@ -19,7 +18,10 @@ router = APIRouter(prefix="/message", tags=["Chat"])
 #     return serializeDict(user)
 
 @router.post('/')
-async def create_message(data: Message):
-    print(data)
-    response = get_response(data)
-    return
+async def message_chatbot(user_input: Message):
+    user_msg = user_input.message.lower()
+    print(user_msg)
+    intent = detect_intent(user_msg)
+    reply = respond(intent, user_msg)
+    return reply
+    
