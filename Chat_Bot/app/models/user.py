@@ -1,4 +1,5 @@
-from pydantic import BaseModel, Field
+import re
+from pydantic import BaseModel, Field, EmailStr, validator
 from bson import ObjectId
 from typing import Optional
 
@@ -19,9 +20,17 @@ class PyObjectId(ObjectId):
 
 class User(BaseModel):
     _id: Optional[ObjectId] = None
-    name: str
-    email: str
+    name:  str = Field(...)
+    email: EmailStr = Field(...)
     password: str
+    
+    @validator('password')
+    def password_strength(cls, v):
+        if not re.search(r'[A-Z]', v):
+            raise ValueError('Password must contain uppercase letter')
+        if not re.search(r'[0-9]', v):
+            raise ValueError('Password must contain number')
+        return v
 
     class Config:
         arbitrary_types_allowed = True

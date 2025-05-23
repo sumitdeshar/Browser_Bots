@@ -1,6 +1,7 @@
 from sqlmodel import Session, select
 from enum import Enum
 from datetime import datetime
+import json
 
 class ChatIntent(Enum):
     GREETING = "greeting"
@@ -13,16 +14,22 @@ class ChatIntent(Enum):
     HELP = "help"
     UNKNOWN = "unknown"
 
-bookstore = {
-    "opening_time": "9:00 AM",
-    "closing_time": "8:00 PM",
-    "books": {
-        "Python 101": 500,
-        "Learn AI": 700,
-        "Data Science Handbook": 850,
-        "Intro to Algorithms": 1000
-    }
-}
+# bookstore = {
+#     "opening_time": "9:00 AM",
+#     "closing_time": "8:00 PM",
+#     "books": {
+#         "Python 101": 500,
+#         "Learn AI": 700,
+#         "Data Science Handbook": 850,
+#         "Intro to Algorithms": 1000
+#     }
+# }
+bookstore = {}
+
+with open('app/utils/bookstore.json', 'r') as file:
+    bookstore = json.load(file)
+
+
 help_command ={
             "message": "Here are some things I can help you with:",
             "options": [

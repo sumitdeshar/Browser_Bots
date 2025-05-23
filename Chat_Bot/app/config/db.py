@@ -17,5 +17,8 @@ client = AsyncIOMotorClient(MONGO_URI, tls=True)
 
 db = client[db_name]
 
+user_collection = db.user
+chat_collection = db.chat
+
 async def get_database() -> AsyncGenerator:
     yield db

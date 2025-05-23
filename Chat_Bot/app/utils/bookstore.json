@@ -1,0 +1,146 @@
+{
+  "opening_time": "9:00 AM",
+  "closing_time": "8:00 PM",
+  "books": [
+    {
+      "name": "Python 101",
+      "price": 500,
+      "review": 4.5,
+      "description": "A beginner's guide to Python programming covering basics and fundamentals.",
+      "instock": "yes"
+    },
+    {
+      "name": "Learn AI",
+      "price": 700,
+      "review": 4.7,
+      "description": "Introduction to Artificial Intelligence concepts with practical examples.",
+      "instock": "yes"
+    },
+    {
+      "name": "Data Science Handbook",
+      "price": 850,
+      "review": 4.3,
+      "description": "Comprehensive guide on data science methods, tools, and applications.",
+      "instock": "yes"
+    },
+    {
+      "name": "Intro to Algorithms",
+      "price": 1000,
+      "review": 4.8,
+      "description": "Detailed explanation of algorithms and data structures with problem-solving.",
+      "instock": "yes"
+    },
+    {
+      "name": "Machine Learning Basics",
+      "price": 650,
+      "review": 4.2,
+      "description": "Essential concepts and techniques of machine learning for beginners.",
+      "instock": "yes"
+    },
+    {
+      "name": "Deep Learning Explained",
+      "price": 900,
+      "review": 4.6,
+      "description": "Clear and concise guide to deep learning and neural networks.",
+      "instock": "yes"
+    },
+    {
+      "name": "Effective Java",
+      "price": 750,
+      "review": 4.4,
+      "description": "Best practices and tips for writing robust Java code.",
+      "instock": "yes"
+    },
+    {
+      "name": "Web Development with React",
+      "price": 680,
+      "review": 4.1,
+      "description": "Step-by-step guide to building modern web apps using React.js.",
+      "instock": "yes"
+    },
+    {
+      "name": "Database Systems Concepts",
+      "price": 800,
+      "review": 4.0,
+      "description": "Fundamental principles of database systems and design.",
+      "instock": "yes"
+    },
+    {
+      "name": "Cybersecurity Essentials",
+      "price": 720,
+      "review": 3.9,
+      "description": "Introduction to cybersecurity concepts and practices.",
+      "instock": "yes"
+    },
+    {
+      "name": "Cloud Computing with AWS",
+      "price": 780,
+      "review": 4.3,
+      "description": "Learn cloud computing fundamentals using Amazon Web Services.",
+      "instock": "yes"
+    },
+    {
+      "name": "Operating System Concepts",
+      "price": 850,
+      "review": 4.5,
+      "description": "In-depth study of operating system principles and architectures.",
+      "instock": "yes"
+    },
+    {
+      "name": "Network Programming in Python",
+      "price": 630,
+      "review": 4.1,
+      "description": "Practical approach to network programming using Python libraries.",
+      "instock": "yes"
+    },
+    {
+      "name": "Mobile App Development",
+      "price": 700,
+      "review": 3.8,
+      "description": "Guide to creating mobile applications for Android and iOS.",
+      "instock": "no"
+    },
+    {
+      "name": "Artificial Intelligence Ethics",
+      "price": 600,
+      "review": 3.7,
+      "description": "Discussion on ethical concerns in AI development and deployment.",
+      "instock": "yes"
+    },
+    {
+      "name": "Big Data Analytics",
+      "price": 900,
+      "review": 4.4,
+      "description": "Techniques and tools for processing and analyzing big data.",
+      "instock": "yes"
+    },
+    {
+      "name": "Programming in C",
+      "price": 550,
+      "review": 4.0,
+      "description": "Introduction to C programming language fundamentals and syntax.",
+      "instock": "yes"
+    },
+    {
+      "name": "Software Engineering Principles",
+      "price": 780,
+      "review": 4.3,
+      "description": "Overview of software development life cycle and best practices.",
+      "instock": "yes"
+    },
+    {
+      "name": "Introduction to Robotics",
+      "price": 850,
+      "review": 4.1,
+      "description": "Basic concepts and applications of robotics technology.",
+      "instock": "no"
+    },
+    {
+      "name": "Quantum Computing for Beginners",
+      "price": 950,
+      "review": 3.9,
+      "description": "Explains quantum computing concepts in an easy-to-understand manner.",
+      "instock": "yes"
+    }
+  ]
+}

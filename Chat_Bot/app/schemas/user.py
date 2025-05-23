@@ -1,18 +1,13 @@
-# Normal way
-def userEntity(item) -> dict:
-    return {
-        "id":str(item["_id"]),
-        "name":item["name"],
-        "email":item["email"],
-        "password":item["password"]
-    }
 
-def usersEntity(entity) -> list:
-    return [userEntity(item) for item in entity]
-#Best way
 
-def serializeDict(a) -> dict:
-    return {**{i:str(a[i]) for i in a if i=='_id'},**{i:a[i] for i in a if i!='_id'}}
 
-def serializeList(entity) -> list:
-    return [serializeDict(a) for a in entity]
+from pydantic import BaseModel, EmailStr
+from typing import Optional
+
+class UserResponseModel(BaseModel):
+    _id: Optional[str]  # keep _id, but as a string
+    name: str
+    email: EmailStr
+
+    class Config:
+        orm_mode = True  # helps with ORM or dict conversion if needed
