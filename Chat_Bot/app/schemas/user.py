@@ -1,13 +1,13 @@
-
-
-
 from pydantic import BaseModel, EmailStr
 from typing import Optional
+from bson import ObjectId
 
-class UserResponseModel(BaseModel):
-    _id: Optional[str]  # keep _id, but as a string
+class UserResponse(BaseModel):
+    _id: str
     name: str
     email: EmailStr
+    password: str
 
     class Config:
-        orm_mode = True  # helps with ORM or dict conversion if needed
+        arbitrary_types_allowed = True
+        json_encoders = {ObjectId: str}

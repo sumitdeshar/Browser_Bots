@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from bson import ObjectId
 
-from app.schemas.user import UserResponseModel
+from app.schemas.user import UserResponse
 from ..utils.hash import Hash
 from ..models.user import User
 from ..schemas.serializers import serializeDict, serializeList
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/user", tags=["User"])
 
 @router.get(
     '/',
-    response_model=List[UserResponseModel],
+    response_model=List[UserResponse],
     status_code=status.HTTP_200_OK,
     summary="Get all users",
     response_description="List of users"
@@ -23,6 +23,7 @@ async def find_all_users(db: AsyncIOMotorDatabase = Depends(get_database)):
     try:
         users_cursor = user_collection.find()
         users = await users_cursor.to_list(length=100)
+        print(users)
         return serializeList(users)
 
     except Exception as e:
@@ -34,7 +35,6 @@ async def find_all_users(db: AsyncIOMotorDatabase = Depends(get_database)):
 
 @router.get(
     '/{id}',
-    response_model=UserResponseModel,
     status_code=status.HTTP_200_OK,
     summary="Get a user by ID",
     response_description="User data"
@@ -62,7 +62,6 @@ async def find_one_user(id: str, db: AsyncIOMotorDatabase = Depends(get_database
 
 @router.post(
     '/create',
-    response_model=List[UserResponseModel],
     status_code=status.HTTP_201_CREATED,
     summary="Create a new user",
     response_description="List of all users after creation"
@@ -87,7 +86,6 @@ async def create_user(user_data: User, db: AsyncIOMotorDatabase = Depends(get_da
 
 @router.put(
     '/update/{id}',
-    response_model=UserResponseModel,
     status_code=status.HTTP_200_OK,
     summary="Update an existing user",
     response_description="Updated user data"
@@ -119,7 +117,6 @@ async def update_user(id: str, user_data: User, db: AsyncIOMotorDatabase = Depen
 
 @router.delete(
     '/delete/{id}',
-    response_model=UserResponseModel,
     status_code=status.HTTP_200_OK,
     summary="Delete a user",
     response_description="Deleted user data"

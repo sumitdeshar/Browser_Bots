@@ -2,6 +2,7 @@ from sqlmodel import Session, select
 from enum import Enum
 from datetime import datetime
 import json
+import re
 
 class ChatIntent(Enum):
     GREETING = "greeting"
@@ -36,12 +37,13 @@ help_command ={
                 {"id": 1, "command": "opening hours", "description": "Check the store's opening hours"},
                 {"id": 2, "command": "closing hours", "description": "Check the store's closing hours"},
                 {"id": 3, "command": "show books", "description": "View available books"},
-                {"id": 4, "command": "book price", "description": "Find the price of a book"},
+                {"id": 4, "command": "check price", "description": "Find the price of a book"},
                 {"id": 5, "command": "order book", "description": "Place an order for a book"},
                 {"id": 6, "command": "exit", "description": "End the conversation"}
             ]
         }
 
+#more utlis
 def get_time_based_greeting() -> str:
     current_hour = datetime.now().hour
     if 5 <= current_hour < 12:
@@ -53,8 +55,48 @@ def get_time_based_greeting() -> str:
     else:
         return "Good night"
 
-def detect_intent(user_input: str) -> ChatIntent:
-    user_input = user_input.lower()
+def show_books() -> str:
+    books = bookstore["books"]
+    return "📚 Here's our book list:\n" + "\n".join([f"- {book['name']}" for book in books])
+
+
+def get_books(book_list: list) -> list:
+    matched_books = []
+    # Compile regex patterns for all user inputs (case-insensitive)
+    patterns = [re.compile(re.escape(name), re.IGNORECASE) for name in book_list]
+
+    for book in bookstore["books"]:
+        for pattern in patterns:
+            if pattern.search(book["name"]):
+                matched_books.append(book)
+                break  # Stop checking other patterns if matched
+
+    return matched_books
+
+
+
+def get_book_prices(book_list: list) -> str:
+    matched = get_books(book_list)
+
+    if matched:
+        return "💰 Book Prices:\n" + "\n".join([f"{book['name']}: Rs. {book['price']}" for book in matched])
+    else:
+        return "❗ Please mention the correct book name to check the price."
+
+
+def order_books(book_list: list) -> str:
+    matched = get_books(book_list)
+
+    if matched:
+        total = sum(book["price"] for book in matched)
+        order_details = "\n".join([f"🛒 Ordered: {book['name']} - Rs. {book['price']}" for book in matched])
+        return f"{order_details}\n\n💸 Total: Rs. {total}\nWould you like to order more books?"
+    else:
+        return "❌ Sorry, we couldn't find any books in your order. Please try again."
+
+
+def detect_intent(user_msg: dict) -> ChatIntent:
+    user_input = user_msg['message'].lower()
 
     greeting_keywords = ["hello", "hi", "namaste", "hey", "good morning", "good evening", "good afternoon"]
     
@@ -77,7 +119,7 @@ def detect_intent(user_input: str) -> ChatIntent:
     else:
         return ChatIntent.UNKNOWN
 
-def respond(intent: ChatIntent, user_input: str):
+def respond(intent: ChatIntent, user_input: dict):
     if intent == ChatIntent.GREETING:
         time_greeting = get_time_based_greeting()
         return (
@@ -89,29 +131,22 @@ def respond(intent: ChatIntent, user_input: str):
         return help_command
 
     elif intent == ChatIntent.OPENING_HOURS:
-        return f"We open at {bookstore['opening_time']}."
+        return f"🕘 We open at {bookstore['opening_time']}."
 
     elif intent == ChatIntent.CLOSING_HOURS:
-        return f"We close at {bookstore['closing_time']}."
+        return f"🕗 We close at {bookstore['closing_time']}."
 
     elif intent == ChatIntent.SHOW_BOOKS:
-        return "Here's our book list:\n" + "\n".join(f"- {book}" for book in bookstore['books'])
+        return show_books()
 
     elif intent == ChatIntent.BOOK_PRICE:
-        for book in bookstore["books"]:
-            if book.lower() in user_input.lower():
-                return f"The price of '{book}' is Rs. {bookstore['books'][book]}"
-        return "Please mention the book name to check the price."
+        return get_book_prices(user_input['book_list'])
 
     elif intent == ChatIntent.ORDER_BOOK:
-        for book in bookstore["books"]:
-            if book.lower() in user_input.lower():
-                return f"Order placed for '{book}'. Total: Rs. {bookstore['books'][book]}. Thank you!"
-        return "Sorry, we couldn't find the book. Please mention the correct book name."
+        return order_books(user_input['book_list'])
 
     elif intent == ChatIntent.EXIT:
-        return "Thank you for visiting our bookstore. Goodbye!"
+        return "👋 Thank you for visiting our bookstore. Goodbye!"
 
     else:
-        return "Sorry, I didn't understand that. You can type **help** to see what I can do."
-
+        return "🤖 Sorry, I didn't understand that. You can type **help** to see what I can do."

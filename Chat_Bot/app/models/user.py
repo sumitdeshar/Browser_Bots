@@ -19,7 +19,7 @@ class PyObjectId(ObjectId):
         field_schema.update(type="string")
 
 class User(BaseModel):
-    _id: Optional[ObjectId] = None
+    _id: Optional[ObjectId]
     name:  str = Field(...)
     email: EmailStr = Field(...)
     password: str
